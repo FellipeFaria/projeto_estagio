@@ -1,10 +1,9 @@
 import express from "express";
+import productRouter from "./routes/productRoute.js";
 
 const app = express();
 app.use(express.json());
 
-app.get("/api/status", (_, res) => {
-  res.json({ status: "Online", date: new Date() });
-});
+app.use("/produtos", productRouter);
 
-app.listen(8800, () => console.log("Server running on port 8800"));
+app.listen(8800);
