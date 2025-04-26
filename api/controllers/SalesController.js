@@ -82,7 +82,6 @@ export class SalesController {
       }
 
       db = await connect();
-      console.log("🔌 Conectado ao banco.");
 
       const sale = await db.run(
         "INSERT INTO venda (metodo_pagamento) VALUES (?)",
@@ -94,8 +93,6 @@ export class SalesController {
         if (!id_produto || !quantidade || !valor_unit) {
           throw new Error(`Produto inválido: ${JSON.stringify(produto)}`);
         }
-
-        console.log("Inserindo produto:", produto);
 
         await db.run(
           `INSERT INTO produto_venda (id_venda, id_produto, quantidade, valor_unit)

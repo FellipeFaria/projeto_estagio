@@ -4,16 +4,19 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "criarTabelas": "node database/criarBanco.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "express": "^4.21.2",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
     "nodemon": "^3.1.9",
     "sqlite": "^5.1.1",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^5.1.7",
+    "sucrase": "^3.35.0"
   }
 }
