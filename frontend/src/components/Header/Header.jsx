@@ -46,7 +46,7 @@ const HeaderActions = styled.div`
   }
 `;
 
-const Header = ({ onSearch }) => {
+function Header() {
   const [searchTerm, setSearchTerm] = useState("");
   const [isThemeMenuOpen, setIsThemeMenuOpen] = useState(false);
   const navigate = useNavigate();
@@ -55,14 +55,6 @@ const Header = ({ onSearch }) => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    if (searchTerm.trim()) {
-      if (onSearch) {
-        onSearch(searchTerm);
-      } else {
-        navigate(`/produtos?search=${encodeURIComponent(searchTerm)}`);
-      }
-      setSearchTerm("");
-    }
   };
 
   const handleThemeChange = (theme) => {
@@ -120,6 +112,6 @@ const Header = ({ onSearch }) => {
       </HeaderActions>
     </HeaderContainer>
   );
-};
+}
 
 export default Header;
