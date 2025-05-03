@@ -1,10 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ThemeProvider as StyledThemeProvider } from "styled-components";
-import { ThemeProvider } from "./contexts/ThemeContext"; // Seu ThemeProvider personalizado
+import { ThemeProvider } from "./contexts/ThemeContext";
 import { GlobalStyle } from "./styles/GlobalStyle.js";
-import { theme as defaultTheme } from "./styles/theme.js"; // Seu tema padrão
+import { theme as defaultTheme } from "./styles/theme.js";
 import Layout from "./components/Layout/Layout.jsx";
 import HomePage from "./pages/homePage/HomePage.jsx";
+import ProductPage from "./pages/productPage/ProductPage.jsx";
 
 function App() {
   return (
@@ -14,7 +15,8 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<Layout />}>
-              <Route path="/" element={<HomePage />} />
+              <Route path="/home" element={<HomePage />} />
+              <Route path="/produtos" element={<ProductPage />} />
             </Route>
           </Routes>
         </Router>
