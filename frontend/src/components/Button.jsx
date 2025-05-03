@@ -49,6 +49,28 @@ const StyledButton = styled.button`
     }
   `}
 
+  ${({ $variant, theme }) =>
+    $variant === "alert" &&
+    `
+    background-color: ${theme.colors.alert};
+    color: white;
+
+    &:hover {
+      background-color: ${theme.colors.alertDark};
+    }
+  `}
+
+  ${({ $variant, theme }) =>
+    $variant === "error" &&
+    `
+    background-color: ${theme.colors.error};
+    color: white;
+    
+    &:hover {
+      background-color: ${theme.colors.errorDark};
+    }
+  `}
+
   ${({ $isIcon }) =>
     $isIcon &&
     `
