@@ -17,7 +17,7 @@ const Container = styled.div`
 
 function Logo({ navigate }) {
   return (
-    <Container onClick={() => navigate("/")}>
+    <Container onClick={() => navigate("/home")}>
       <FaStore />
       <span>FelpsCommerce</span>
     </Container>
