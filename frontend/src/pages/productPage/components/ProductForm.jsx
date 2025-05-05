@@ -119,15 +119,7 @@ function ProductForm({
         });
       }
 
-      setProductData({
-        id_produto: 0,
-        nome_produto: "",
-        preco_produto: "",
-      });
-
-      setOnEdit(null);
-
-      setIsFormOpen(!isFormOpen);
+      cleanFormsAndExit(e);
     } catch (e) {
       console.error("Erro detalhado:", e.response?.data || e.message);
     } finally {
@@ -154,21 +146,7 @@ function ProductForm({
   return (
     <Container>
       <FormHeader>
-        <CloseButton
-          onClick={() => {
-            if (onEdit) {
-              setOnEdit(null);
-            }
-
-            setProductData({
-              id_produto: 0,
-              nome_produto: "",
-              preco_produto: "",
-            });
-
-            setIsFormOpen(!isFormOpen);
-          }}
-        >
+        <CloseButton onClick={(e) => cleanFormsAndExit(e)}>
           <FaTimes />
         </CloseButton>
         <h1>Cadastrar Produto</h1>

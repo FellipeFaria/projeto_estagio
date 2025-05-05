@@ -19,32 +19,6 @@ export class ProductController {
     }
   }
 
-  static async getProduct(req, res) {
-    let db;
-    try {
-      db = await connect();
-
-      const product = await db.get(`SELECT * FROM produto WHERE id_produto=?`, [
-        req.params.id,
-      ]);
-
-      if (!product) {
-        return res.status(404).json({
-          error: "Produto não encontrado",
-        });
-      }
-
-      res.status(200).json(product);
-    } catch (error) {
-      res.status(500).json({
-        error: "Erro no processamento",
-        details: error.message,
-      });
-    } finally {
-      if (db) await db.close();
-    }
-  }
-
   static async addProduct(req, res) {
     let db;
     try {
