@@ -51,7 +51,7 @@ function HomePage() {
           description="Cadastre, edite e gerencie seu estoque de produtos de forma simples e intuitiva."
           btnText="Ver Produtos"
           link="/produtos"
-          navigate={navigate("/produtos")}
+          navigate={navigate}
         />
         <FeatureCard
           icon={<FaCashRegister />}
@@ -59,7 +59,7 @@ function HomePage() {
           description="Realize vendas rapidamente com nosso sistema otimizado para checkout."
           btnText="Realizar Venda"
           link="/vendas"
-          navigate={navigate("/vendas")}
+          navigate={navigate}
         />
         <FeatureCard
           icon={<FaChartPie />}
@@ -67,7 +67,7 @@ function HomePage() {
           description="Acompanhe o desempenho do seu negócio com gráficos e relatórios detalhados."
           btnText="Ver Estástisticas"
           link="/estatistica"
-          navigate={navigate("/estatistica")}
+          navigate={navigate}
         />
       </FeatureCardContainer>
     </Container>

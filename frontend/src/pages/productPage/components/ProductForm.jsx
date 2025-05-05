@@ -106,6 +106,7 @@ function ProductForm({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       if (onEdit) {
         await editProduct(productData.id_produto, {
@@ -119,14 +120,9 @@ function ProductForm({
         });
       }
 
-      setProductData({
-        id_produto: 0,
-        nome_produto: "",
-        preco_produto: "",
-      });
-
-      setIsFormOpen(!isFormOpen);
       setOnEdit(null);
+
+      cleanFormsAndClose();
     } catch (e) {
       console.error("Erro detalhado:", e.response?.data || e.message);
     } finally {
@@ -134,19 +130,31 @@ function ProductForm({
     }
   };
 
-  const cancel = (e) => {
+  const cleanFormsAndClose = (e) => {
     e.preventDefault();
-    setProductData({
-      id_produto: 0,
-      nome_produto: "",
-      preco_produto: 0,
-    });
+
+    setProductData(null);
+
+    if (onEdit) {
+      setOnEdit(null);
+    }
+
+    setIsFormOpen(!isFormOpen);
   };
 
   return (
     <Container>
       <FormHeader>
-        <CloseButton onClick={() => setIsFormOpen(!isFormOpen)}>
+        <CloseButton
+          onClick={() => {
+            if (onEdit) {
+              setOnEdit(null);
+            }
+
+            setProductData(null);
+            setIsFormOpen(!isFormOpen);
+          }}
+        >
           <FaTimes />
         </CloseButton>
         <h1>Cadastrar Produto</h1>
@@ -196,7 +204,11 @@ function ProductForm({
         </FormGroup>
 
         <FormActions>
-          <Button variant="secondary" icon={<FaTimes />} onClick={cancel}>
+          <Button
+            variant="secondary"
+            icon={<FaTimes />}
+            onClick={cleanFormsAndClose}
+          >
             Cancelar
           </Button>
 
