@@ -106,7 +106,6 @@ function ProductForm({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       if (onEdit) {
         await editProduct(productData.id_produto, {
@@ -120,9 +119,15 @@ function ProductForm({
         });
       }
 
+      setProductData({
+        id_produto: 0,
+        nome_produto: "",
+        preco_produto: "",
+      });
+
       setOnEdit(null);
 
-      cleanFormsAndClose();
+      setIsFormOpen(!isFormOpen);
     } catch (e) {
       console.error("Erro detalhado:", e.response?.data || e.message);
     } finally {
@@ -130,10 +135,14 @@ function ProductForm({
     }
   };
 
-  const cleanFormsAndClose = (e) => {
+  const cleanFormsAndExit = (e) => {
     e.preventDefault();
 
-    setProductData(null);
+    setProductData({
+      id_produto: 0,
+      nome_produto: "",
+      preco_produto: "",
+    });
 
     if (onEdit) {
       setOnEdit(null);
@@ -151,7 +160,12 @@ function ProductForm({
               setOnEdit(null);
             }
 
-            setProductData(null);
+            setProductData({
+              id_produto: 0,
+              nome_produto: "",
+              preco_produto: "",
+            });
+
             setIsFormOpen(!isFormOpen);
           }}
         >
@@ -207,7 +221,7 @@ function ProductForm({
           <Button
             variant="secondary"
             icon={<FaTimes />}
-            onClick={cleanFormsAndClose}
+            onClick={cleanFormsAndExit}
           >
             Cancelar
           </Button>
