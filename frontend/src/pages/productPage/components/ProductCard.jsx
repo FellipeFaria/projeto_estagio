@@ -1,6 +1,7 @@
 import { FaBox, FaEdit, FaTrash, FaCartPlus } from "react-icons/fa";
 import styled from "styled-components";
 import Button from "../../../components/Button.jsx";
+import { deleteProduct } from "../../../services/api.js";
 
 const Card = styled.div`
   background: ${({ theme }) => theme.colors.white};
@@ -10,7 +11,7 @@ const Card = styled.div`
   transition: ${({ theme }) => theme.transitions.default};
   display: flex;
   flex-direction: column;
-  width: 400px;
+  width: 350px;
 
   &:hover {
     transform: translateY(-5px);
@@ -59,7 +60,31 @@ const CardContentActions = styled.div`
   justify-content: center;
 `;
 
-function ProductCard({ productName, price }) {
+function ProductCard({
+  product,
+  setOnEdit,
+  setIsFormOpen,
+  isFormOpen,
+  loadProducts,
+}) {
+  const handleEdit = () => {
+    setOnEdit(product);
+
+    setIsFormOpen(!isFormOpen);
+  };
+
+  const handleDelete = async () => {
+    try {
+      if (window.confirm(`Deseja mesmo excluir ${product.nome_produto}?`)) {
+        await deleteProduct(product.id_produto);
+      }
+    } catch (e) {
+      console.error("Erro ao excluir produto ", e.message);
+    } finally {
+      loadProducts();
+    }
+  };
+
   return (
     <Card>
       <CardIcon>
@@ -67,20 +92,24 @@ function ProductCard({ productName, price }) {
       </CardIcon>
 
       <CardContent>
-        <h3>{productName}</h3>
+        <h3>{product.nome_produto}</h3>
 
-        <CardContentPrice>R${price.toFixed(2)}</CardContentPrice>
+        <CardContentPrice>
+          R${product.preco_produto.toFixed(2)}
+        </CardContentPrice>
 
         <CardContentActions>
           <Button
             variant="alert"
             icon={<FaEdit size={20} />}
             style={{ width: "7.5rem" }}
+            onClick={handleEdit}
           ></Button>
           <Button
             variant="error"
             icon={<FaTrash size={20} />}
             style={{ width: "7.5rem" }}
+            onClick={handleDelete}
           ></Button>
           <Button
             variant="success"

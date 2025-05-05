@@ -1,8 +1,10 @@
 import styled from "styled-components";
 import PageHeader from "./components/PageHeader.jsx";
 import ProductCard from "./components/ProductCard.jsx";
+import ProductForm from "./components/ProductForm.jsx";
 import { getProduct } from "../../services/api.js";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { SearchContext } from "../../contexts/SearchContext.jsx";
 
 const Container = styled.div`
   display: flex;
@@ -19,11 +21,16 @@ const ProductGrid = styled.div`
   gap: 1.5rem;
   margin-bottom: 2rem;
   margin-top: 1rem;
+  flex-wrap: wrap;
 `;
 
 function ProductPage() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [onEdit, setOnEdit] = useState(null);
+
+  const { searchTerm } = useContext(SearchContext);
 
   const loadProducts = async () => {
     setLoading(true);
@@ -45,6 +52,10 @@ function ProductPage() {
     }
   };
 
+  const filtredProducts = products.filter((product) =>
+    product.nome_produto.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   useEffect(() => {
     loadProducts();
   }, []);
@@ -55,21 +66,34 @@ function ProductPage() {
 
   return (
     <Container>
-      <PageHeader />
+      <PageHeader setIsFormOpen={setIsFormOpen} isFormOpen={isFormOpen} />
 
-      <ProductGrid>
-        {products.length > 0 ? (
-          products.map((product) => (
-            <ProductCard
-              key={product.id_produto}
-              productName={product.nome_produto}
-              price={product.preco_produto}
-            />
-          ))
-        ) : (
-          <h1>Nenhum produto cadastrado</h1>
-        )}
-      </ProductGrid>
+      {!isFormOpen ? (
+        <ProductGrid>
+          {filtredProducts.length > 0 ? (
+            filtredProducts.map((product) => (
+              <ProductCard
+                key={product.id_produto}
+                product={product}
+                setOnEdit={setOnEdit}
+                setIsFormOpen={setIsFormOpen}
+                isFormOpen={isFormOpen}
+                loadProducts={loadProducts}
+              />
+            ))
+          ) : (
+            <h1>Nenhum produto encontrado</h1>
+          )}
+        </ProductGrid>
+      ) : (
+        <ProductForm
+          setIsFormOpen={setIsFormOpen}
+          isFormOpen={isFormOpen}
+          loadProducts={loadProducts}
+          onEdit={onEdit}
+          setOnEdit={setOnEdit}
+        />
+      )}
     </Container>
   );
 }
