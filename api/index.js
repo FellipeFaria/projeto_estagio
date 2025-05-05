@@ -11,4 +11,4 @@ app.use("/produtos", productRouter);
 
 app.use("/venda", salesRouter);
 
-app.listen(8800);
+app.listen(8000);
