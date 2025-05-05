@@ -1,22 +1,16 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useTheme } from "../../contexts/ThemeContext";
-import {
-  FaStore,
-  FaSearch,
-  FaShoppingCart,
-  FaChartLine,
-  FaPalette,
-  FaCircle,
-} from "react-icons/fa";
+import { FaShoppingCart, FaChartLine } from "react-icons/fa";
 import Logo from "./components/Logo.jsx";
 import SearchForm from "./components/SearchForm.jsx";
 import Button from "../Button.jsx";
 import ThemeChanger from "./components/ThemeChanger.jsx";
+import { SearchContext } from "../../contexts/SearchContext.jsx";
 
 const HeaderContainer = styled.header`
-  width: 100%;
+  min-width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -26,6 +20,7 @@ const HeaderContainer = styled.header`
   position: sticky;
   top: 0;
   z-index: 50;
+  overflow: hidden;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     flex-direction: column;
@@ -47,15 +42,12 @@ const HeaderActions = styled.div`
 `;
 
 function Header() {
-  const [searchTerm, setSearchTerm] = useState("");
   const [isThemeMenuOpen, setIsThemeMenuOpen] = useState(false);
   const navigate = useNavigate();
   const { themeName, changeTheme } = useTheme();
   const themeMenuRef = useRef(null);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-  };
+  const { searchTerm, setSearchTerm } = useContext(SearchContext);
 
   const handleThemeChange = (theme) => {
     changeTheme(theme);
@@ -80,11 +72,7 @@ function Header() {
       <Logo navigate={navigate} />
 
       <HeaderActions>
-        <SearchForm
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          handleSearch={handleSearch}
-        />
+        <SearchForm searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 
         <Button
           variant="primary"
