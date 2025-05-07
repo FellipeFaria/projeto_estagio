@@ -52,9 +52,11 @@ function ProductPage() {
     }
   };
 
-  const filtredProducts = products.filter((product) =>
-    product.nome_produto.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filtredProducts = products
+    .filter((product) =>
+      product.nome_produto.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .sort((a, b) => a.nome_produto.localeCompare(b.nome_produto));
 
   useEffect(() => {
     loadProducts();
