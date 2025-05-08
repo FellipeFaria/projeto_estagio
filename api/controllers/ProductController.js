@@ -41,7 +41,9 @@ export class ProductController {
         result.lastID,
       ]);
 
-      res.status(201).json(product);
+      res
+        .status(201)
+        .json({ ...product, message: "Produto cadastrado com sucesso" });
     } catch (error) {
       return res.status(500).json({
         error: "Erro no processamento",

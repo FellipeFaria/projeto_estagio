@@ -3,6 +3,7 @@ import Button from "../../../components/Button.jsx";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { addProduct, editProduct } from "../../../services/api.js";
+import { notify } from "../../../components/Notifications/Notification.jsx";
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
@@ -106,29 +107,32 @@ function ProductForm({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let res;
     try {
       if (onEdit) {
-        await editProduct(productData.id_produto, {
+        res = await editProduct(productData.id_produto, {
           nome_produto: productData.nome_produto,
           preco_produto: Number(productData.preco_produto),
         });
+        notify(res.data.message, "success");
       } else {
-        await addProduct({
+        res = await addProduct({
           nome_produto: productData.nome_produto,
           preco_produto: Number(productData.preco_produto),
         });
+        notify(res.data.message, "success");
       }
 
-      cleanFormsAndExit(e);
-    } catch (e) {
-      console.error("Erro detalhado:", e.response?.data || e.message);
-    } finally {
       loadProducts();
+      cleanFormsAndExit(e);
+    } catch (error) {
+      console.error("Erro detalhado:", error.response?.data || error.message);
+      notify(error.message, "error");
     }
   };
 
   const cleanFormsAndExit = (e) => {
-    e.preventDefault();
+    e?.preventDefault?.();
 
     setProductData({
       id_produto: 0,

@@ -2,6 +2,7 @@ import { FaBox, FaEdit, FaTrash, FaCartPlus } from "react-icons/fa";
 import styled from "styled-components";
 import Button from "../../../components/Button.jsx";
 import { deleteProduct } from "../../../services/api.js";
+import { notify } from "../../../components/Notifications/Notification.jsx";
 
 const Card = styled.div`
   background: ${({ theme }) => theme.colors.white};
@@ -77,11 +78,12 @@ function ProductCard({
     try {
       if (window.confirm(`Deseja mesmo excluir ${product.nome_produto}?`)) {
         await deleteProduct(product.id_produto);
+        notify(`${product.nome_produto} deletado com sucesso`, "success");
       }
+
+      loadProducts();
     } catch (e) {
       console.error("Erro ao excluir produto ", e.message);
-    } finally {
-      loadProducts();
     }
   };
 
